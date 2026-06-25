@@ -5,16 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Groups & Channels</title>
     <style>
-        /* إعدادات الخلفية الثابتة والمريحة للعين */
+        /* إعدادات الخلفية الثابتة والمتحركة */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #0a0a0a; /* أسود ملكي غامق */
             color: #ffffff;
             margin: 0;
             padding: 20px;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* حاوية العنوان لضمان التوسيط الكامل */
+        /* أنيميشن الخلفية - عناصر تتحرك بلطف */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .circle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.03); /* دوائر بيضاء شفافة جداً */
+            border-radius: 50%;
+            animation: floatAround 25s infinite linear;
+        }
+
+        .circle:nth-child(1) { width: 150px; height: 150px; top: 10%; left: 10%; animation-duration: 20s; }
+        .circle:nth-child(2) { width: 250px; height: 250px; top: 60%; left: 80%; animation-duration: 30s; }
+        .circle:nth-child(3) { width: 100px; height: 100px; top: 40%; left: 40%; animation-duration: 15s; }
+        .circle:nth-child(4) { width: 180px; height: 180px; top: 80%; left: 20%; animation-duration: 25s; }
+
+        @keyframes floatAround {
+            0% { transform: translateY(0) rotate(0deg) scale(1); }
+            50% { transform: translateY(-40px) rotate(180deg) scale(1.1); }
+            100% { transform: translateY(0) rotate(360deg) scale(1); }
+        }
+
+        /* حاوية العنوان لحل مشكلة التوسيط تماماً */
         .header-container {
             display: flex;
             justify-content: center;
@@ -23,7 +54,7 @@
             margin-bottom: 35px;
         }
 
-        /* العنوان الرئيسي */
+        /* العنوان الرئيسي - تم إصلاح التوسيط */
         h1 {
             color: #ffffff; 
             font-size: 2.2rem;
@@ -45,14 +76,22 @@
             margin: 0 auto;
         }
 
-        /* كارت القناة - تصميم خفيف بدون تأثيرات حركية ثقيلة لمنع اللاق */
+        /* كارت القناة - أبيض وأسود */
         .channel-card {
             background-color: #121212;
             border: 1px solid #222222;
             border-radius: 14px;
             overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.7);
             display: flex;
             flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .channel-card:hover {
+            transform: translateY(-5px);
+            border-color: #ffffff;
+            box-shadow: 0 12px 30px rgba(255,255,255,0.05);
         }
 
         /* حاوية الصورة الطولية */
@@ -67,6 +106,12 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            filter: grayscale(20%);
+            transition: filter 0.3s;
+        }
+
+        .channel-card:hover .screenshot-container img {
+            filter: grayscale(0%);
         }
 
         /* التفاصيل */
@@ -98,16 +143,18 @@
             justify-content: space-between;
             align-items: center;
             border-radius: 6px;
+            transition: all 0.3s;
         }
 
         .description-toggle:hover {
             background-color: #222222;
             color: #ffffff;
+            border-color: #444444;
         }
 
         .arrow {
             transform: rotate(0deg);
-            transition: transform 0.2s;
+            transition: transform 0.3s;
             display: inline-block;
             font-size: 0.8rem;
             color: #ffffff;
@@ -117,7 +164,7 @@
         .description-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.2s ease-out;
+            transition: max-height 0.3s ease-out;
             background-color: #161616;
             border-radius: 4px;
         }
@@ -139,11 +186,18 @@
             padding: 11px;
             border-radius: 8px;
             font-weight: bold;
+            transition: all 0.3s;
             font-size: 0.9rem;
             border: 1px solid #ffffff;
         }
 
-        /* حاوية زر الحساب الشخصي */
+        .action-btn:hover {
+            background-color: #000000;
+            color: #ffffff;
+            border-color: #ffffff;
+        }
+
+        /* حاوية زر الحساب الشخصي الخاص بك في أسفل الصفحة */
         .footer-container {
             display: flex;
             justify-content: center;
@@ -165,6 +219,15 @@
             font-weight: bold;
             font-size: 1rem;
             border: 2px solid #ffffff;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05);
+        }
+
+        .private-account-btn:hover {
+            background-color: #ffffff;
+            color: #000000;
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
         }
 
         /* الشاشات الصغيرة والموبايل */
@@ -183,6 +246,13 @@
     </style>
 </head>
 <body>
+
+    <div class="background-animation">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
 
     <div class="header-container">
         <h1>Groups & Channels</h1>
