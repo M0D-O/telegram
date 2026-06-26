@@ -5,56 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Groups & Channels</title>
     <style>
-        /* إعدادات الخلفية الثابتة والمتحركة */
+        /* إعدادات الخلفية الثابتة والمريحة للعين */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0a0a0a; /* أسود ملكي غامق */
+            background-color: #050505; /* أسود ملكي فاخر */
             color: #ffffff;
             margin: 0;
             padding: 20px;
-            overflow-x: hidden;
-            position: relative;
         }
 
-        /* أنيميشن الخلفية - عناصر تتحرك بلطف */
-        .background-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .circle {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.03); /* دوائر بيضاء شفافة جداً */
-            border-radius: 50%;
-            animation: floatAround 25s infinite linear;
-        }
-
-        .circle:nth-child(1) { width: 150px; height: 150px; top: 10%; left: 10%; animation-duration: 20s; }
-        .circle:nth-child(2) { width: 250px; height: 250px; top: 60%; left: 80%; animation-duration: 30s; }
-        .circle:nth-child(3) { width: 100px; height: 100px; top: 40%; left: 40%; animation-duration: 15s; }
-        .circle:nth-child(4) { width: 180px; height: 180px; top: 80%; left: 20%; animation-duration: 25s; }
-
-        @keyframes floatAround {
-            0% { transform: translateY(0) rotate(0deg) scale(1); }
-            50% { transform: translateY(-40px) rotate(180deg) scale(1.1); }
-            100% { transform: translateY(0) rotate(360deg) scale(1); }
-        }
-
-        /* حاوية العنوان لحل مشكلة التوسيط تماماً */
+        /* حاوية العنوان */
         .header-container {
             display: flex;
             justify-content: center;
             align-items: center;
             width: 100%;
-            margin-bottom: 35px;
+            margin-bottom: 20px;
         }
 
-        /* العنوان الرئيسي - تم إصلاح التوسيط */
+        /* العنوان الرئيسي */
         h1 {
             color: #ffffff; 
             font-size: 2.2rem;
@@ -67,6 +36,50 @@
             text-align: center;
         }
 
+        /* شريط الإحصائيات */
+        .stats-bar {
+            max-width: 850px;
+            margin: 0 auto 25px auto;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #aaaaaa;
+        }
+        .stats-bar strong {
+            color: #ffffff;
+        }
+
+        /* شريط التبويبات والأقسام */
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            max-width: 850px;
+            margin: 0 auto 30px auto;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #cccccc;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover, .tab-btn.active {
+            background: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
+        }
+
         /* شبكة العرض: صورتين جنب بعض */
         .grid-container {
             display: grid;
@@ -76,29 +89,28 @@
             margin: 0 auto;
         }
 
-        /* كارت القناة - أبيض وأسود */
+        /* كارت القناة بستايل زجاجي فاخر وخفيف */
         .channel-card {
-            background-color: #121212;
-            border: 1px solid #222222;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 14px;
             overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.7);
             display: flex;
             flex-direction: column;
-            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            transition: transform 0.2s ease, border-color 0.2s ease;
         }
 
         .channel-card:hover {
-            transform: translateY(-5px);
-            border-color: #ffffff;
-            box-shadow: 0 12px 30px rgba(255,255,255,0.05);
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.2);
         }
 
         /* حاوية الصورة الطولية */
         .screenshot-container {
             width: 100%;
             aspect-ratio: 9 / 19.5;
-            background-color: #1a1a1a;
+            background-color: #111111;
             overflow: hidden;
         }
 
@@ -106,12 +118,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: grayscale(20%);
-            transition: filter 0.3s;
-        }
-
-        .channel-card:hover .screenshot-container img {
-            filter: grayscale(0%);
         }
 
         /* التفاصيل */
@@ -127,14 +133,18 @@
             font-weight: 600;
             text-align: center;
             color: #ffffff;
+            min-height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         /* زر الوصف القابل للفتح */
         .description-toggle {
             width: 100%;
-            background-color: #1a1a1a;
+            background: rgba(255, 255, 255, 0.05);
             color: #aaaaaa;
-            border: 1px solid #2a2a2a;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             padding: 11px;
             font-size: 0.9rem;
             text-align: right;
@@ -143,18 +153,16 @@
             justify-content: space-between;
             align-items: center;
             border-radius: 6px;
-            transition: all 0.3s;
         }
 
         .description-toggle:hover {
-            background-color: #222222;
+            background: rgba(255, 255, 255, 0.1);
             color: #ffffff;
-            border-color: #444444;
         }
 
         .arrow {
             transform: rotate(0deg);
-            transition: transform 0.3s;
+            transition: transform 0.2s;
             display: inline-block;
             font-size: 0.8rem;
             color: #ffffff;
@@ -164,8 +172,8 @@
         .description-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease-out;
-            background-color: #161616;
+            transition: max-height 0.2s ease-out;
+            background: rgba(0, 0, 0, 0.3);
             border-radius: 4px;
         }
 
@@ -176,28 +184,51 @@
             color: #cccccc;
         }
 
-        /* زر الانتقال للرابط */
+        /* حاوية الأزرار أسفل الكارت */
+        .buttons-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* زر الانتقال للرابط الرئيسي */
         .action-btn {
-            display: block;
+            flex: 2;
             text-align: center;
             background-color: #ffffff;
             color: #000000;
             text-decoration: none;
-            padding: 11px;
+            padding: 11px 5px;
             border-radius: 8px;
             font-weight: bold;
-            transition: all 0.3s;
             font-size: 0.9rem;
             border: 1px solid #ffffff;
+            transition: background 0.2s;
         }
 
         .action-btn:hover {
-            background-color: #000000;
+            background-color: #e0e0e0;
+        }
+
+        /* زر مشاركة الرابط */
+        .share-btn {
+            flex: 1;
+            background: transparent;
             color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 11px 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .share-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
             border-color: #ffffff;
         }
 
-        /* حاوية زر الحساب الشخصي الخاص بك في أسفل الصفحة */
+        /* حاوية زر الحساب الشخصي */
         .footer-container {
             display: flex;
             justify-content: center;
@@ -219,15 +250,12 @@
             font-weight: bold;
             font-size: 1rem;
             border: 2px solid #ffffff;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05);
+            transition: background 0.2s, color 0.2s;
         }
 
         .private-account-btn:hover {
             background-color: #ffffff;
             color: #000000;
-            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
         }
 
         /* الشاشات الصغيرة والموبايل */
@@ -235,94 +263,133 @@
             .grid-container { gap: 12px; padding: 0; }
             body { padding: 10px; }
             h1 { font-size: 1.6rem; }
-            .header-container { margin-bottom: 25px; }
+            .header-container { margin-bottom: 15px; }
+            .stats-bar { padding: 10px; font-size: 0.8rem; margin-bottom: 15px; }
+            .tabs-container { margin-bottom: 20px; gap: 6px; }
+            .tab-btn { padding: 6px 14px; font-size: 0.8rem; }
             .channel-card { border-radius: 10px; }
             .channel-details { padding: 10px; gap: 8px; }
-            .channel-title { font-size: 0.95rem; }
+            .channel-title { font-size: 0.95rem; min-height: 22px; }
             .description-toggle { padding: 8px; font-size: 0.8rem; }
-            .action-btn { padding: 9px; font-size: 0.85rem; }
+            .buttons-row { gap: 5px; }
+            .action-btn { padding: 9px 2px; font-size: 0.8rem; }
+            .share-btn { padding: 9px 2px; font-size: 0.75rem; }
             .private-account-btn { padding: 10px 24px; font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="background-animation">
-        <div class="circle"></div>
-        <div class="circle"></div>
-        <div class="circle"></div>
-        <div class="circle"></div>
-    </div>
-
+    <!-- حاوية العنوان الموسط -->
     <div class="header-container">
         <h1>Groups & Channels</h1>
     </div>
 
+    <!-- شريط الإحصائيات التفاعلي -->
+    <div class="stats-bar">
+        شبكتنا تضم حالياً: <strong id="count-channels">0 قنوات</strong> | <strong id="count-groups">0 مجموعات</strong> | <strong id="count-bots">0 بوتات</strong>
+    </div>
+
+    <!-- شريط زارير التبويبات (الأقسام) -->
+    <div class="tabs-container">
+        <button class="tab-btn active" onclick="filterCategory('all', this)">الكل</button>
+        <button class="tab-btn" onclick="filterCategory('channel', this)">قنوات</button>
+        <button class="tab-btn" onclick="filterCategory('group', this)">مجموعات</button>
+        <button class="tab-btn" onclick="filterCategory('bot', this)">بوتات</button>
+        <button class="tab-btn" onclick="filterCategory('private', this)">حسابات شخصية</button>
+    </div>
+
+    <!-- شبكة الكروت ومقسمة حسب نوع كل كارت باستعمال data-category -->
     <div class="grid-container">
 
-        <div class="channel-card">
+        <!-- كارت 1: قنوات -->
+        <div class="channel-card" data-category="channel">
             <div class="screenshot-container"><img src="1.png" alt="شاشة القناة 1"></div>
             <div class="channel-details">
                 <div class="channel-title">منظمة الأنمي</div>
                 <button class="description-toggle" onclick="toggleDescription(this)"><span>شرح القناة</span><span class="arrow">▼</span></button>
-                <div class="description-content"><div class="description-text">قناة خاصة بنشر محتوى الأنمي من اخبار وتسريبات وصورة واي محتوى ثاني خاص بكودر محد يشوفه غيره اصلا 😒</div></div>
-                <a href="https://t.me/A_Coffee_0" target="_blank" class="action-btn">الانضمام للقناة</a>
+                <div class="description-content"><div class="description-text">قناة خاصة بنشر محتوى الأنمي من اخبار وتسريبات وصورة واي محتوى ثاني محد يشوفه غيره اصلا 😒</div></div>
+                <div class="buttons-row">
+                    <a href="https://t.me/A_Coffee_0" target="_blank" class="action-btn">الانضمام للقناة</a>
+                    <button class="share-btn" onclick="copyLink('https://t.me/A_Coffee_0', this)">مشاركة</button>
+                </div>
             </div>
         </div>
 
-        <div class="channel-card">
+        <!-- كارت 2: مجموعات -->
+        <div class="channel-card" data-category="group">
             <div class="screenshot-container"><img src="2.png" alt="شاشة القناة 2"></div>
             <div class="channel-details">
                 <div class="channel-title">قهوة أنمي</div>
                 <button class="description-toggle" onclick="toggleDescription(this)"><span>شرح الجروب</span><span class="arrow">▼</span></button>
                 <div class="description-content"><div class="description-text">اكتب الوصف هنا</div></div>
-                <a href="https://t.me/A_Coffee_1" target="_blank" class="action-btn">الانضمام للجروب</a>
+                <div class="buttons-row">
+                    <a href="https://t.me/A_Coffee_1" target="_blank" class="action-btn">الانضمام للجروب</a>
+                    <button class="share-btn" onclick="copyLink('https://t.me/A_Coffee_1', this)">مشاركة</button>
+                </div>
             </div>
         </div>
 
-        <div class="channel-card">
+        <!-- كارت 3: قنوات -->
+        <div class="channel-card" data-category="channel">
             <div class="screenshot-container"><img src="3.png" alt="شاشة القناة 3"></div>
             <div class="channel-details">
                 <div class="channel-title">Detective Conan Coffee</div>
                 <button class="description-toggle" onclick="toggleDescription(this)"><span>شرح القناة</span><span class="arrow">▼</span></button>
                 <div class="description-content"><div class="description-text">قناة خاصة بمحتوى أنمي المحقق كونان شاملة الانمي كامل من حلقات وأفلام ومانجا وأوفا ...إلخ</div></div>
-                <a href="https://t.me/DC_Coffee" target="_blank" class="action-btn">الانضمام للقناة</a>
+                <div class="buttons-row">
+                    <a href="https://t.me/DC_Coffee" target="_blank" class="action-btn">الانضمام للقناة</a>
+                    <button class="share-btn" onclick="copyLink('https://t.me/DC_Coffee', this)">مشاركة</button>
+                </div>
             </div>
         </div>
 
-        <div class="channel-card">
+        <!-- كارت 4: بوتات -->
+        <div class="channel-card" data-category="bot">
             <div class="screenshot-container"><img src="4.png" alt="شاشة القناة 4"></div>
             <div class="channel-details">
                 <div class="channel-title">قهوة أنمي || Anime Coffee</div>
                 <button class="description-toggle" onclick="toggleDescription(this)"><span>شرح البوت</span><span class="arrow">▼</span></button>
                 <div class="description-content"><div class="description-text">بوت أنمي بيه اكثر من 250 أنمي واضافة لاي أنمي يطلبه اعضاء البوت </div></div>
-                <a href="https://t.me/animecoffee_bot" target="_blank" class="action-btn">إضافة البوت</a>
+                <div class="buttons-row">
+                    <a href="https://t.me/animecoffee_bot" target="_blank" class="action-btn">إضافة البوت</a>
+                    <button class="share-btn" onclick="copyLink('https://t.me/animecoffee_bot', this)">مشاركة</button>
+                </div>
             </div>
         </div>
 
-        <div class="channel-card">
+        <!-- كارت 5: قنوات -->
+        <div class="channel-card" data-category="channel">
             <div class="screenshot-container"><img src="5.png" alt="شاشة القناة 5"></div>
             <div class="channel-details">
                 <div class="channel-title">🤍 صديقٌ لمن لا صديقَ لهُ🩵</div>
                 <button class="description-toggle" onclick="toggleDescription(this)"><span>شرح القناة</span><span class="arrow">▼</span></button>
                 <div class="description-content"><div class="description-text">اكتب الوصف هنا</div></div>
-                <a href="https://t.me/KudoLugwang10" target="_blank" class="action-btn">الانضمام للقناة</a>
+                <div class="buttons-row">
+                    <a href="https://t.me/KudoLugwang10" target="_blank" class="action-btn">الانضمام للقناة</a>
+                    <button class="share-btn" onclick="copyLink('https://t.me/KudoLugwang10', this)">مشاركة</button>
+                </div>
             </div>
         </div>
 
-        <div class="channel-card">
+        <!-- كارت 6: مجموعات -->
+        <div class="channel-card" data-category="group">
             <div class="screenshot-container"><img src="6.png" alt="شاشة القناة 6"></div>
             <div class="channel-details">
                 <div class="channel-title">خواطر تحكي 🐦‍🔥</div>
                 <button class="description-toggle" onclick="toggleDescription(this)"><span>شرح الجروب</span><span class="arrow">▼</span></button>
                 <div class="description-content"><div class="description-text">اكتب الوصف هنا</div></div>
-                <a href="https://t.me/KudoLugwang11" target="_blank" class="action-btn">الانضمام للجروب</a>
+                <div class="buttons-row">
+                    <a href="https://t.me/KudoLugwang11" target="_blank" class="action-btn">الانضمام للجروب</a>
+                    <button class="share-btn" onclick="copyLink('https://t.me/KudoLugwang11', this)">مشاركة</button>
+                </div>
             </div>
         </div>
 
     </div>
 
-    <div class="footer-container">
+    <!-- حاوية زر الحساب الشخصي (تحت قسم حسابات شخصية) -->
+    <div class="footer-container" data-category="private">
         <a href="https://t.me/M0D_O" target="_blank" class="private-account-btn">My Private Account</a>
     </div>
 
@@ -345,6 +412,60 @@
                 content.style.maxHeight = content.scrollHeight + "px";
             }
         }
+
+        // دالة تصفية الأقسام (الفلترة)
+        function filterCategory(category, button) {
+            // تفعيل الزر النشط
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            // إخفاء أو إظهار الكروت بناء على القسم
+            document.querySelectorAll('.channel-card').forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // التحكم في ظهور زر الحساب الشخصي السفلي
+            const footer = document.querySelector('.footer-container');
+            if (category === 'all' || category === 'private') {
+                footer.style.display = 'flex';
+            } else {
+                footer.style.display = 'none';
+            }
+        }
+
+        // دالة حساب الإحصائيات تلقائياً
+        function updateStats() {
+            const channels = document.querySelectorAll('.channel-card[data-category="channel"]').length;
+            const groups = document.querySelectorAll('.channel-card[data-category="group"]').length;
+            const bots = document.querySelectorAll('.channel-card[data-category="bot"]').length;
+
+            document.getElementById('count-channels').innerText = channels + " قنوات";
+            document.getElementById('count-groups').innerText = groups + " مجموعات";
+            document.getElementById('count-bots').innerText = bots + " بوتات";
+        }
+
+        // دالة نسخ الرابط للمشاركة بسلاسة
+        function copyLink(url, button) {
+            navigator.clipboard.writeText(url).then(() => {
+                const originalText = button.innerText;
+                button.innerText = "تم النسخ! ✓";
+                button.style.backgroundColor = "rgba(255,255,255,0.15)";
+                setTimeout(() => {
+                    button.innerText = originalText;
+                    button.style.backgroundColor = "transparent";
+                }, 1500);
+            }).catch(err => {
+                console.error('خطأ في نسخ الرابط: ', err);
+            });
+        }
+
+        // تشغيل العداد عند فتح الصفحة
+        window.onload = updateStats;
     </script>
 </body>
 </html>
+
